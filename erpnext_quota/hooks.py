@@ -54,7 +54,7 @@ app_license = "MIT"
 # ------------
 
 before_install = "erpnext_quota.install.before_install"
-# after_install = "erpnext_quota.install.after_install"
+after_install = "erpnext_quota.events.db_quota.create_quota"
 
 # Desk Notifications
 # ------------------
@@ -91,7 +91,10 @@ on_login = 'erpnext_quota.events.auth.successful_login'
 doc_events = {
     'User': {
         'validate': 'erpnext_quota.erpnext_quota.quota.user_limit',
-        'on_update': 'erpnext_quota.erpnext_quota.quota.user_limit'
+        'on_update': 'erpnext_quota.erpnext_quota.quota.user_limit',
+    },
+    'Item':{
+        'validate': 'erpnext_quota.events.db_quota.create_sys_config'
     },
     'Company': {
         'validate': 'erpnext_quota.erpnext_quota.quota.company_limit',

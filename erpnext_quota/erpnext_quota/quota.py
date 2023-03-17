@@ -12,10 +12,17 @@ def user_limit(self, method):
     count_administrator_user = quota["count_administrator_user"]
     allowed_users = quota["users"]
     active_users = validate_users(self, count_administrator_user, count_website_users, allowed_users)
-    quota['active_users'] = active_users
+    
+    # Update In DB
+    frappe.db.sql(f"""insert into `__eq_config` (users,active_users,
+    space,db_space,company,used_company,count_website_users,count_administrator_user,valid_till)
+	values (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",(quota['users'],active_users,quota['space'],
+    quota['db_space'],quota['company'],quota['used_company'],quota['count_website_users'],
+    quota['count_administrator_user'],quota['valid_till']))
+    
 
     # updating site config
-    update_site_config('quota', quota)
+    # update_site_config('quota', quota)
 
 
 def validate_users(self, count_administrator_user, count_website_users, allowed_users):
