@@ -54,7 +54,6 @@ app_license = "MIT"
 # ------------
 
 before_install = "erpnext_quota.install.before_install"
-after_install = "erpnext_quota.events.db_quota.create_quota"
 
 # Desk Notifications
 # ------------------
